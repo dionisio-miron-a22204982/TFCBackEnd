@@ -1,0 +1,4 @@
+### /api/users//search/id/2
+GET {{host}}/api/users/search/id/1
+x-api-token: 12345
+Authorization: Basic admin 123
