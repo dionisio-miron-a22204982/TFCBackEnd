@@ -1,5 +1,5 @@
 package pt.ulusofona.expenses.controller
-
+/*
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.provisioning.UserDetailsManager
@@ -176,3 +176,5 @@ class WebUserAdminController(
         throw IllegalArgumentException("Invalid token")
     }
 }
+
+ */

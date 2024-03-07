@@ -4,9 +4,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.ulusofona.expenses.dao.UtilizadorEmpresarial
-import pt.ulusofona.expenses.dao.UtilizadorParticular
 import pt.ulusofona.expenses.repository.UtilizadorEmpresarialRepository
-import java.util.*
+
 
 @RestController
 @RequestMapping("/api/business-users")
