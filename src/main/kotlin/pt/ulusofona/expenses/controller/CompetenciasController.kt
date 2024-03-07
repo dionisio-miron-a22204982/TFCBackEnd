@@ -19,7 +19,7 @@ class CompetenciasController(private val competenciasRepository: CompetenciasRep
             return ResponseEntity(competencias, HttpStatus.OK)
         } else {
             val tipo_de_competencia: List<Competencias> = competenciasRepository.findAll()
-                    .filter { it.nome.contains(input, ignoreCase = true)}
+                    .filter { it.tipo.contains(input, ignoreCase = true)}
             return ResponseEntity(tipo_de_competencia, HttpStatus.OK)
         }
     }

@@ -14,7 +14,6 @@ import pt.ulusofona.expenses.repository.UserRepository
 import pt.ulusofona.expenses.repository.UtilizadorParticularRepository
 import java.util.*
 
-
 @Component
 @Profile("!test")
 class DataLoader(
