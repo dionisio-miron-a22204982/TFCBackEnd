@@ -7,11 +7,9 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
 import org.springframework.security.provisioning.UserDetailsManager
 import org.springframework.stereotype.Component
-import pt.ulusofona.expenses.dao.ExpenseType
 import pt.ulusofona.expenses.dao.Role
 import pt.ulusofona.expenses.dao.User
 import pt.ulusofona.expenses.dao.UtilizadorParticular
-import pt.ulusofona.expenses.repository.ExpenseTypeRepository
 import pt.ulusofona.expenses.repository.UserRepository
 import pt.ulusofona.expenses.repository.UtilizadorParticularRepository
 import java.util.*
@@ -20,7 +18,6 @@ import java.util.*
 @Component
 @Profile("!test")
 class DataLoader(
-    val expenseTypeRepository: ExpenseTypeRepository,
     val userRepository: UserRepository,
     val userDetailsManager: UserDetailsManager,
     val utilizadorParticularRepository: UtilizadorParticularRepository
