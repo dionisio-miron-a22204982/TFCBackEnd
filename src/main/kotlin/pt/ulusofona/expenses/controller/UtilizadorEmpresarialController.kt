@@ -1,48 +1,29 @@
 package pt.ulusofona.expenses.controller
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.ulusofona.expenses.dao.UtilizadorEmpresarial
+import pt.ulusofona.expenses.dao.UtilizadorParticular
 import pt.ulusofona.expenses.repository.UtilizadorEmpresarialRepository
 import java.util.*
 
 @RestController
 @RequestMapping("/api/business-users")
-class UtilizadorEmpresarialController {
+class UtilizadorEmpresarialController(private val utilizadorEmpresarialRepository: UtilizadorEmpresarialRepository) {
 
-    @Autowired
-    lateinit var utilizadorEmpresarialRepository: UtilizadorEmpresarialRepository
-
-    @GetMapping("/{id}")
-    fun getUserById(@PathVariable id: Long): UtilizadorEmpresarial {
-        return utilizadorEmpresarialRepository.findById(id)
-                .orElseThrow { NoSuchElementException("User with id $id not found") }
-    }
-
-    @PostMapping("/create")
-    fun createUser(@RequestBody user: UtilizadorEmpresarial): UtilizadorEmpresarial {
-        return utilizadorEmpresarialRepository.save(user)
-    }
-
-    @PutMapping("/{id}")
-    fun updateUser(@PathVariable id: Long, @RequestBody updatedUser: UtilizadorEmpresarial): UtilizadorEmpresarial {
-        val existingUser = utilizadorEmpresarialRepository.findById(id)
-                .orElseThrow { NoSuchElementException("User with id $id not found") }
-
-        existingUser.email = updatedUser.email
-        existingUser.nome = updatedUser.nome
-        existingUser.contactoTelefonico = updatedUser.contactoTelefonico
-        existingUser.utilizador = updatedUser.utilizador
-        existingUser.password = updatedUser.password
-        existingUser.dataDeNascimento = updatedUser.dataDeNascimento
-        existingUser.empresa = updatedUser.empresa
-        existingUser.hashAlgorithm = updatedUser.hashAlgorithm
-        existingUser.permissoes = updatedUser.permissoes
-
-        return utilizadorEmpresarialRepository.save(existingUser)
-    }
-
-    @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: Long) {
-        utilizadorEmpresarialRepository.deleteById(id)
+    @GetMapping("/search/{input}")
+    fun getUserById(@PathVariable input: String): ResponseEntity<out Any> {
+        if (input.all { it.isDigit() }){
+            val utilizadorEmpresarial: UtilizadorEmpresarial =
+                    utilizadorEmpresarialRepository.findByIdOrNull(input.toLong())
+                            ?: throw IllegalArgumentException("Utilizador não existe")
+            return ResponseEntity(utilizadorEmpresarial, HttpStatus.OK)
+        }
+        else {
+            val utilizadoresEmpresariais: List<UtilizadorEmpresarial> = utilizadorEmpresarialRepository.findAll()
+                    .filter { it.nome.contains(input, ignoreCase = true)}
+            return ResponseEntity(utilizadoresEmpresariais, HttpStatus.OK)
+        }
     }
 }

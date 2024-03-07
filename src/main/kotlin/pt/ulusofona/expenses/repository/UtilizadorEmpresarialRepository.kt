@@ -4,5 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import pt.ulusofona.expenses.dao.UtilizadorEmpresarial
 
 interface UtilizadorEmpresarialRepository : JpaRepository<UtilizadorEmpresarial, Long> {
-    fun findByEmail(email: String): UtilizadorEmpresarial?
 }
