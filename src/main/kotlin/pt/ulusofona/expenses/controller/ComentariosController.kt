@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*
 import pt.ulusofona.expenses.dao.Comentarios
 import pt.ulusofona.expenses.repository.ComentariosRepository
 
-
 @RestController
 @RequestMapping("/api/comentarios")
 class ComentariosController(private val comentariosRepository: ComentariosRepository) {
