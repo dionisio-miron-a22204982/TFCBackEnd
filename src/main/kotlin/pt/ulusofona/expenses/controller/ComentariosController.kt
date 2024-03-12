@@ -8,33 +8,29 @@ import pt.ulusofona.expenses.dao.Comentarios
 import pt.ulusofona.expenses.repository.ComentariosRepository
 import pt.ulusofona.expenses.repository.UtilizadorEmpresarialRepository
 import pt.ulusofona.expenses.repository.UtilizadorParticularRepository
-import pt.ulusofona.expenses.request.ComentarioRequest
+import pt.ulusofona.expenses.request.SearchComentariosRequest
 
 @RestController
 @RequestMapping("/api/comentarios")
 
-//adicionei os repositorios de utilizadores particulares e empresariais
 class ComentariosController(private val comentariosRepository: ComentariosRepository, val utilizadorParticularRepository: UtilizadorParticularRepository, val utilizadorEmpresarialRepository: UtilizadorEmpresarialRepository) {
 
     @GetMapping("/search/{input}")
-    fun getCommentById(@PathVariable input: String): ResponseEntity<Comentarios> {
-        if (input.all { it.isDigit() }){
-            val comentarios: Comentarios =
-                    comentariosRepository.findByIdOrNull(input.toLong())
-                            ?: throw IllegalArgumentException("Comentario não existe.")
-            return ResponseEntity(comentarios, HttpStatus.OK)
-        } else {
-            throw IllegalArgumentException("O Id deve ser do tipo numerico.")
+    fun getCommentById(@RequestBody comentarioRequest: SearchComentariosRequest): ResponseEntity<out Any> {
+
+        val idComentario = comentariosRepository.findByIdOrNull(comentarioRequest.id)
+
+        return if (idComentario != null) {
+            ResponseEntity(idComentario, HttpStatus.OK)
+        }  else {
+            ResponseEntity("Comentario não encontrado", HttpStatus.NOT_FOUND)
         }
     }
 
-
-
-    //exemplo: função para adicionar comentario
     @PostMapping
-    fun new(@RequestBody comentarioRequest: ComentarioRequest): ResponseEntity<String> {
+    fun newComment(@RequestBody comentarioRequest: SearchComentariosRequest): ResponseEntity<String> {
 
-        val utilizadorParticular = utilizadorParticularRepository.findByIdOrNull(comentarioRequest.idUser)    //procura utilizadorParticular
+        val utilizadorParticular = utilizadorParticularRepository.findByIdOrNull(comentarioRequest.id)
         val comentarioString = comentarioRequest.comentario
 
         if(utilizadorParticular==null){
@@ -44,16 +40,28 @@ class ComentariosController(private val comentariosRepository: ComentariosReposi
         val comentario = Comentarios(author = utilizadorParticular, comentario = comentarioString)
         comentariosRepository.save(comentario)
 
-        return ResponseEntity("ok", HttpStatus.OK)
+        return ResponseEntity("ok, saved", HttpStatus.OK)
     }
 
     @PostMapping
-    fun edit(@PathVariable input: String): ResponseEntity<String> {    //todo alterar @PathVariable para @RequestBody searchComentariosRequest
-        return ResponseEntity("ok", HttpStatus.OK)
+    fun editComment(@RequestBody comentarioRequest: SearchComentariosRequest): ResponseEntity<String> {
+
+        val idComentario = comentariosRepository.findByIdOrNull(comentarioRequest.id)
+                ?: throw IllegalArgumentException("Comentário não encontrado")
+
+        idComentario.comentario to comentarioRequest.comentario
+
+        return ResponseEntity("ok, saved", HttpStatus.OK)
     }
 
     @PostMapping
-    fun remove(@PathVariable input: String): ResponseEntity<String> {
-        return ResponseEntity("ok", HttpStatus.OK)
+    fun removeComment(@RequestBody comentarioRequest: SearchComentariosRequest): ResponseEntity<String> {
+
+        val idComentario = comentariosRepository.findByIdOrNull(comentarioRequest.id)
+                ?: throw IllegalArgumentException("Comentário não encontrado")
+
+        comentariosRepository.delete(idComentario)
+
+        return ResponseEntity("Deleted", HttpStatus.OK)
     }
 }
