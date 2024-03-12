@@ -15,5 +15,5 @@ class FormacaoAcademica(
         @ManyToOne(optional = false)
         @JoinColumn(name = "user_id", nullable = false)
         @JsonIgnore
-        val owner: User? = null
+        val owner: UtilizadorParticular? = null
 )
