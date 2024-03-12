@@ -21,7 +21,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
 
         return if (userId != null) {
             ResponseEntity(userId, HttpStatus.OK)
-        } else if (name != null) {
+        } else if (!name.equals(null)) {
             ResponseEntity(name, HttpStatus.OK)
         } else {
             ResponseEntity("Utilizador não encontrado", HttpStatus.NOT_FOUND)

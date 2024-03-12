@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.ulusofona.expenses.dao.UtilizadorEmpresarial
 import pt.ulusofona.expenses.repository.UtilizadorEmpresarialRepository
+import pt.ulusofona.expenses.request.SearchUtilizadorEmpresarialRequest
+
 
 
 @RestController
@@ -12,17 +14,18 @@ import pt.ulusofona.expenses.repository.UtilizadorEmpresarialRepository
 class UtilizadorEmpresarialController(private val utilizadorEmpresarialRepository: UtilizadorEmpresarialRepository) {
 
     @GetMapping("/search/{input}")
-    fun getUserById(@PathVariable input: String): ResponseEntity<out Any> {
-        if (input.all { it.isDigit() }){
-            val utilizadorEmpresarial: UtilizadorEmpresarial =
-                    utilizadorEmpresarialRepository.findByIdOrNull(input.toLong())
-                            ?: throw IllegalArgumentException("Utilizador não existe")
-            return ResponseEntity(utilizadorEmpresarial, HttpStatus.OK)
-        }
-        else {
-            val utilizadoresEmpresariais: List<UtilizadorEmpresarial> = utilizadorEmpresarialRepository.findAll()
-                    .filter { it.nome.contains(input, ignoreCase = true)}
-            return ResponseEntity(utilizadoresEmpresariais, HttpStatus.OK)
+    fun getUserById(@RequestBody request: SearchUtilizadorEmpresarialRequest): ResponseEntity<out Any> {
+
+        val userId = utilizadorEmpresarialRepository.findByIdOrNull(request.id)
+        val name = utilizadorEmpresarialRepository.findUtilizadorEmpresarialsByNome(request.nome)
+
+
+        return if (userId != null) {
+            ResponseEntity(userId, HttpStatus.OK)
+        } else if (!name.equals(null)) {
+            ResponseEntity(name, HttpStatus.OK)
+        } else {
+            ResponseEntity("Utilizador não encontrado", HttpStatus.NOT_FOUND)
         }
     }
 }

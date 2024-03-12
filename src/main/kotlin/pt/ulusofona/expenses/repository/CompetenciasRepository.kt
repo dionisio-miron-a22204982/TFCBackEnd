@@ -5,5 +5,6 @@ import pt.ulusofona.expenses.dao.Competencias
 
 
 interface CompetenciasRepository : JpaRepository<Competencias, Long> {
+    fun findCompetenciasByTipo(tipo : String)
 
 }

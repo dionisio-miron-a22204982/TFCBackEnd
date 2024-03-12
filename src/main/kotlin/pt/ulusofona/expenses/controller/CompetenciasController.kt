@@ -6,21 +6,22 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.ulusofona.expenses.dao.Competencias
 import pt.ulusofona.expenses.repository.CompetenciasRepository
+import pt.ulusofona.expenses.request.SearchCompetenciasRequest
 
 @RestController
 @RequestMapping("/api/comentarios")
 class CompetenciasController(private val competenciasRepository: CompetenciasRepository) {
     @GetMapping("/search/{input}")
-    fun getUserById(@PathVariable input: String): ResponseEntity<out Any> {
-        if (input.all { it.isDigit() }){
-            val competencias: Competencias =
-                    competenciasRepository.findByIdOrNull(input.toLong())
-                            ?: throw IllegalArgumentException("Competencia não encontrada.")
-            return ResponseEntity(competencias, HttpStatus.OK)
+    fun getCompetenciasByIdOrType(@RequestBody request: SearchCompetenciasRequest): ResponseEntity<out Any> {
+
+        val competencia = competenciasRepository.findByIdOrNull(request.id)
+
+        return if (competencia != null) {
+            ResponseEntity(competencia, HttpStatus.OK)
         } else {
-            val tipo_de_competencia: List<Competencias> = competenciasRepository.findAll()
-                    .filter { it.tipo.contains(input, ignoreCase = true)}
-            return ResponseEntity(tipo_de_competencia, HttpStatus.OK)
+            val tipoDeCompetencia: List<Competencias> = competenciasRepository.findAll()
+                    .filter { it.tipo.contains(request.tipo, ignoreCase = true)}
+            return ResponseEntity(tipoDeCompetencia, HttpStatus.OK)
         }
     }
 }

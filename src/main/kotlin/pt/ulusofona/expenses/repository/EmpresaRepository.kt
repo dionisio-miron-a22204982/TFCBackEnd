@@ -5,5 +5,5 @@ import pt.ulusofona.expenses.dao.Empresa
 
 
 interface EmpresaRepository : JpaRepository<Empresa, Long> {
-
+    fun findEmpresaByNome(nome: String)
 }
