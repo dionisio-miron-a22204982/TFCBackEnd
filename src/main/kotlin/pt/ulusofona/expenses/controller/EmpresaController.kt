@@ -10,7 +10,7 @@ import pt.ulusofona.expenses.request.SearchEmpresaRequest
 
 
 @RestController
-@RequestMapping("/api/comentarios")
+@RequestMapping("/api/empresa")
 class EmpresaController(private val empresaRepository: EmpresaRepository) {
     @GetMapping("/search/{input}")
     fun getEmpresaByIdOrName(@RequestBody request: SearchEmpresaRequest): ResponseEntity<out Any> {
