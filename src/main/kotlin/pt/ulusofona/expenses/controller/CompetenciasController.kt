@@ -11,16 +11,16 @@ import pt.ulusofona.expenses.request.SearchCompetenciasRequest
 @RestController
 @RequestMapping("/api/comentarios")
 class CompetenciasController(private val competenciasRepository: CompetenciasRepository) {
-    @GetMapping("/search/{input}")
-    fun getCompetenciasByIdOrType(@RequestBody request: SearchCompetenciasRequest): ResponseEntity<out Any> {
+    @GetMapping("/searchID/{id}")
+    fun getCompetenciasByIdOrType(@PathVariable id: SearchCompetenciasRequest): ResponseEntity<out Any> {
 
-        val competencia = competenciasRepository.findByIdOrNull(request.id)
+        val competencia = competenciasRepository.findByIdOrNull(id.id)
 
         return if (competencia != null) {
             ResponseEntity(competencia, HttpStatus.OK)
         } else {
             val tipoDeCompetencia: List<Competencias> = competenciasRepository.findAll()
-                    .filter { it.tipo.contains(request.tipo, ignoreCase = true)}
+                    .filter { it.tipo.contains(id.tipo, ignoreCase = true)}
             return ResponseEntity(tipoDeCompetencia, HttpStatus.OK)
         }
     }

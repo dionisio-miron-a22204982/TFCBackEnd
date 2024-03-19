@@ -11,7 +11,7 @@ class Comentarios (
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    val author: UtilizadorParticular,
+    val author: UtilizadorParticular? = null,
 
     @Column
     val data: Date? = null,
