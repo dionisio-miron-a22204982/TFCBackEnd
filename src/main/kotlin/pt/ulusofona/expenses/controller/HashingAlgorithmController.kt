@@ -8,12 +8,12 @@ import pt.ulusofona.expenses.repository.HashingAlgorithmRepository
 import pt.ulusofona.expenses.request.SearchHashingAlgorithmRequest
 
 @RestController
-@RequestMapping("/api/hashing-algorithms")
+@RequestMapping("/api/hashingalgorithms")
 class HashingAlgorithmController(private val hashingAlgorithmRepository: HashingAlgorithmRepository) {
 
     @GetMapping("/search/{id}")
-    fun getHashingAlgorithmById(@RequestBody hashingAlgorithm: SearchHashingAlgorithmRequest): ResponseEntity<Any> {
-        val hashing = hashingAlgorithmRepository.findById(hashingAlgorithm.id)
+    fun getHashingAlgorithmById(@PathVariable id: SearchHashingAlgorithmRequest): ResponseEntity<Any> {
+        val hashing = hashingAlgorithmRepository.findById(id.id)
         return if (hashing.isPresent) {
             ResponseEntity(hashing.get(), HttpStatus.OK)
         } else {

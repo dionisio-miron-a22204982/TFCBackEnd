@@ -15,7 +15,7 @@ class UtilizadorParticular(
 
         var profissao: String = "",
 
-        var contacto: Int = 0,
+        var contacto: String = "",
 
         @Temporal(TemporalType.DATE)
         @Column(name = "data_nascimento")

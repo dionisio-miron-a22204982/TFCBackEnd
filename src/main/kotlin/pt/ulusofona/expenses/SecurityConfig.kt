@@ -9,10 +9,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 import pt.ulusofona.expenses.filters.APITokenFilter
-import pt.ulusofona.expenses.manager.MyUserDetailsManager
-import pt.ulusofona.expenses.repository.UserRepository
-import pt.ulusofona.expenses.service.EmailService
-import pt.ulusofona.expenses.service.ITokenGenerationService
+//import pt.ulusofona.expenses.manager.MyUserDetailsManager
 
 @Configuration
 @EnableWebSecurity
@@ -78,10 +75,12 @@ class SecurityConfig {
 
 //    @Bean
 //    fun userDetailsManager(dataSource: DataSource) = JdbcUserDetailsManager(dataSource)
-
+    /*
     @Bean
     fun userDetailsManager(userRepository: UserRepository,
                            tokenGenerationService: ITokenGenerationService,
                            emailService: EmailService) =
-        MyUserDetailsManager(userRepository, tokenGenerationService, emailService)
+        //MyUserDetailsManager(userRepository, tokenGenerationService, emailService)
+
+     */
 }

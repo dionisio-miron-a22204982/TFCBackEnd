@@ -12,8 +12,8 @@ import pt.ulusofona.expenses.request.SearchPropostasRequest
 class PropostasController(private val propostasRepository: PropostasRepository) {
 
     @GetMapping("/search/{id}")
-    fun getPropostaById(@RequestBody propostaRequest: SearchPropostasRequest): ResponseEntity<Any> {
-        val proposta = propostasRepository.findById(propostaRequest.id)
+    fun getPropostaById(@PathVariable id: SearchPropostasRequest): ResponseEntity<Any> {
+        val proposta = propostasRepository.findById(id.id)
         return if (proposta.isPresent) {
             ResponseEntity(proposta.get(), HttpStatus.OK)
         } else {
@@ -21,16 +21,16 @@ class PropostasController(private val propostasRepository: PropostasRepository) 
         }
     }
 
-    @PostMapping("/add")
-    fun addProposta(@RequestBody propostaRequest: SearchPropostasRequest): ResponseEntity<Propostas> {
-        val savedProposta = propostasRepository.save(propostaRequest.proposta)
+    @PostMapping("/add/{id}")
+    fun addProposta(@PathVariable id: SearchPropostasRequest): ResponseEntity<Propostas> {
+        val savedProposta = propostasRepository.save(id.proposta)
         return ResponseEntity(savedProposta, HttpStatus.CREATED)
     }
 
     @PutMapping("/update/{id}")
-    fun updateProposta(@RequestBody propostaRequest: SearchPropostasRequest): ResponseEntity<Propostas> {
-        return if (propostasRepository.existsById(propostaRequest.id)) {
-            val updatedProposta = propostasRepository.save(propostaRequest.proposta)
+    fun updateProposta(@PathVariable id: SearchPropostasRequest): ResponseEntity<Propostas> {
+        return if (propostasRepository.existsById(id.id)) {
+            val updatedProposta = propostasRepository.save(id.proposta)
             ResponseEntity(updatedProposta, HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
@@ -38,9 +38,9 @@ class PropostasController(private val propostasRepository: PropostasRepository) 
     }
 
     @DeleteMapping("/delete/{id}")
-    fun deleteProposta(@RequestBody propostaRequest: SearchPropostasRequest): ResponseEntity<Any> {
-        return if (propostasRepository.existsById(propostaRequest.id)) {
-            propostasRepository.deleteById(propostaRequest.id)
+    fun deleteProposta(@PathVariable id: SearchPropostasRequest): ResponseEntity<Any> {
+        return if (propostasRepository.existsById(id.id)) {
+            propostasRepository.deleteById(id.id)
             ResponseEntity(HttpStatus.OK)
         } else {
             ResponseEntity("Proposta not found", HttpStatus.NOT_FOUND)

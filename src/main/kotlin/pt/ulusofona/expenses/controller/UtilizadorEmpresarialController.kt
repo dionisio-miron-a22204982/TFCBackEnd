@@ -10,14 +10,14 @@ import pt.ulusofona.expenses.request.SearchUtilizadorEmpresarialRequest
 
 
 @RestController
-@RequestMapping("/api/business-users")
+@RequestMapping("/api/businessusers")
 class UtilizadorEmpresarialController(private val utilizadorEmpresarialRepository: UtilizadorEmpresarialRepository) {
 
-    @GetMapping("/search/{input}")
-    fun getUserById(@RequestBody request: SearchUtilizadorEmpresarialRequest): ResponseEntity<out Any> {
+    @GetMapping("/search/{id}")
+    fun getUserById(@PathVariable id: SearchUtilizadorEmpresarialRequest): ResponseEntity<out Any> {
 
-        val userId = utilizadorEmpresarialRepository.findByIdOrNull(request.id)
-        val name = utilizadorEmpresarialRepository.findUtilizadorEmpresarialsByNome(request.nome)
+        val userId = utilizadorEmpresarialRepository.findByIdOrNull(id.id)
+        val name = utilizadorEmpresarialRepository.findUtilizadorEmpresarialsByNome(id.nome)
 
 
         return if (userId != null) {

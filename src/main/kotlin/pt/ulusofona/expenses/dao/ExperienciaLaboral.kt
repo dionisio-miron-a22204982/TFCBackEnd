@@ -8,6 +8,8 @@ class ExperienciaLaboral(
         @Id @GeneratedValue
         val id: Long = 0,
 
+        val informacao: String = "",
+
         val cidade: String = "",
 
         val empresa: String = "",

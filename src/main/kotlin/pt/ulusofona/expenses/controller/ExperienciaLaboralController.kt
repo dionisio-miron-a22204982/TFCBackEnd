@@ -8,29 +8,32 @@ import pt.ulusofona.expenses.repository.ExperienciaLaboralRepository
 import pt.ulusofona.expenses.request.SearchExperienciaLaboralRequest
 
 @RestController
-@RequestMapping("/api/experiencias-laborais")
+@RequestMapping("/api/experienciaslaborais")
 class ExperienciaLaboralController(private val experienciaLaboralRepository: ExperienciaLaboralRepository) {
 
     @GetMapping("/search/{id}")
-    fun getExperienciaLaboralById(@RequestBody experienciaLaboral: SearchExperienciaLaboralRequest): ResponseEntity<Any> {
-        val experiencia = experienciaLaboralRepository.findById(experienciaLaboral.id)
+    fun getExperienciaLaboralById(@PathVariable id : SearchExperienciaLaboralRequest): ResponseEntity<Any> {
+        val experiencia = experienciaLaboralRepository.findById(id.id)
+
         return if (experiencia.isPresent) {
             ResponseEntity(experiencia.get(), HttpStatus.OK)
         } else {
-            ResponseEntity("Experiencia laboral não encontrada", HttpStatus.NOT_FOUND)
+            ResponseEntity("Experiencia laboral não encontrada.", HttpStatus.NOT_FOUND)
         }
     }
 
     @PostMapping("/add/{experiencia}")
-    fun addExperienciaLaboral(@RequestBody experienciaLaboral: SearchExperienciaLaboralRequest): ResponseEntity<ExperienciaLaboral> {
-        val savedExperienciaLaboral = experienciaLaboralRepository.save(experienciaLaboral.experiencia)
+    fun addExperienciaLaboral(@PathVariable experiencia : SearchExperienciaLaboralRequest): ResponseEntity<ExperienciaLaboral> {
+        val savedExperienciaLaboral = experienciaLaboralRepository.save(experiencia.experiencia)
+
         return ResponseEntity(savedExperienciaLaboral, HttpStatus.CREATED)
     }
 
     @PutMapping("/edit/{id}")
-    fun updateExperienciaLaboral(@RequestBody experienciaLaboral: SearchExperienciaLaboralRequest): ResponseEntity<ExperienciaLaboral> {
-        return if (experienciaLaboralRepository.existsById(experienciaLaboral.id)) {
-            val updatedExperienciaLaboral = experienciaLaboralRepository.save(experienciaLaboral.experiencia)
+    fun updateExperienciaLaboral(@PathVariable id : SearchExperienciaLaboralRequest): ResponseEntity<ExperienciaLaboral> {
+
+        return if (experienciaLaboralRepository.existsById(id.id)) {
+            val updatedExperienciaLaboral = experienciaLaboralRepository.save(id.experiencia)
             ResponseEntity(updatedExperienciaLaboral, HttpStatus.OK)
         } else {
             ResponseEntity(HttpStatus.NOT_FOUND)
@@ -38,9 +41,10 @@ class ExperienciaLaboralController(private val experienciaLaboralRepository: Exp
     }
 
     @DeleteMapping("/delete/{id}")
-    fun deleteExperienciaLaboral(@RequestBody experienciaLaboral: SearchExperienciaLaboralRequest): ResponseEntity<Any> {
-        return if (experienciaLaboralRepository.existsById(experienciaLaboral.id)) {
-            experienciaLaboralRepository.deleteById(experienciaLaboral.id)
+    fun deleteExperienciaLaboral(@PathVariable id : SearchExperienciaLaboralRequest): ResponseEntity<Any> {
+
+        return if (experienciaLaboralRepository.existsById(id.id)) {
+            experienciaLaboralRepository.deleteById(id.id)
             ResponseEntity(HttpStatus.OK)
         } else {
             ResponseEntity("Experiencia laboral não encontrada", HttpStatus.NOT_FOUND)

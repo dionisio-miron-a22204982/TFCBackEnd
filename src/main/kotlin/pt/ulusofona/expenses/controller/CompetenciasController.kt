@@ -9,7 +9,7 @@ import pt.ulusofona.expenses.repository.CompetenciasRepository
 import pt.ulusofona.expenses.request.SearchCompetenciasRequest
 
 @RestController
-@RequestMapping("/api/comentarios")
+@RequestMapping("/api/competencias")
 class CompetenciasController(private val competenciasRepository: CompetenciasRepository) {
     @GetMapping("/searchID/{id}")
     fun getCompetenciasByIdOrType(@PathVariable id: SearchCompetenciasRequest): ResponseEntity<out Any> {
