@@ -3,9 +3,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import pt.ulusofona.expenses.repository.UtilizadorEmpresarialRepository
-import pt.ulusofona.expenses.request.SearchUtilizadorEmpresarialByIdRequest
-import pt.ulusofona.expenses.request.SearchUtilizadorParticularByNameRequest
-import pt.ulusofona.expenses.request.SearchUtilizadorParticularByUserNameRequest
+
 
 
 @RestController
@@ -29,8 +27,8 @@ class UtilizadorEmpresarialController(private val utilizadorEmpresarialRepositor
 
     // Search By name
     @GetMapping("/searchName/{name}")
-    fun getBusinessUserByName(@PathVariable name: SearchUtilizadorParticularByNameRequest): ResponseEntity<out Any> {
-        val user = utilizadorEmpresarialRepository.findUtilizadorEmpresarialsByName(name.name)
+    fun getBusinessUserByName(@PathVariable name: String): ResponseEntity<out Any> {
+        val user = utilizadorEmpresarialRepository.findUtilizadorEmpresarialsByName(name)
 
         return if (user != null) {
             ResponseEntity(user, HttpStatus.OK)
@@ -41,9 +39,9 @@ class UtilizadorEmpresarialController(private val utilizadorEmpresarialRepositor
 
     // Search By username
     @GetMapping("/searchUserName/{username}")
-    fun getBusinessUserByUserName(@PathVariable username: SearchUtilizadorParticularByUserNameRequest): ResponseEntity<out Any> {
+    fun getBusinessUserByUserName(@PathVariable username: String): ResponseEntity<out Any> {
 
-        val user = utilizadorParticularRepository.findUtilizadorParticularByUsername(username.username)
+        val user = utilizadorEmpresarialRepository.findUtilizadorEmpresarialsByUsername(username)
 
         return if (user != null) {
             ResponseEntity(user, HttpStatus.OK)
@@ -51,4 +49,6 @@ class UtilizadorEmpresarialController(private val utilizadorEmpresarialRepositor
             ResponseEntity("Utilizador não encontrado", HttpStatus.NOT_FOUND)
         }
     }
+
+
 }
