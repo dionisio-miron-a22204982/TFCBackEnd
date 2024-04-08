@@ -25,3 +25,4 @@ data class EditUtilizadorEmpresarialPasswordRequest(val id: Long, val password: 
 data class EditUtilizadorEmpresarialProfissaoRequest(val id: Long, val profissao: String)
 data class EditUtilizadorEmpresarialContactoRequest(val id: Long, val contacto: String)
 data class EditUtilizadorEmpresarialEmailRequest(val id: Long, val email: String)
+data class EditUtilizadorEmpresarialEmpresaRequest(val id: Long, val empresa: String)

@@ -86,7 +86,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
 
     // Delete User by username
     @DeleteMapping("/delete/{username}")
-    fun deleteUserById(@PathVariable username: String): ResponseEntity<Any> {
+    fun deleteUserByUsername(@PathVariable username: String): ResponseEntity<Any> {
 
         val user = utilizadorParticularRepository.findUtilizadorParticularByUsername(username)
 
@@ -189,7 +189,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
     }
 
     // Edit User email
-    @PostMapping("/editContact")
+    @PostMapping("/editEmail")
     fun editUserContactById(@RequestBody updateUser: EditUtilizadorParticularEmailRequest): ResponseEntity<Any> {
 
         val existingUser = utilizadorParticularRepository.findById(updateUser.id)
