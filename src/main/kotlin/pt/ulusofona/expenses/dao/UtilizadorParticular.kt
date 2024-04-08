@@ -11,17 +11,19 @@ class UtilizadorParticular(
 
         var email: String = "",
 
-        var nome: String = "",
+        var name: String = "",
 
-        var profissao: String = "",
+        var username: String = "",
+
+        var password: String = "",
 
         var contacto: String = "",
+
+        var profissao: String = "",
 
         @Temporal(TemporalType.DATE)
         @Column(name = "data_nascimento")
         var dataNascimento: Date? = null,
-
-        var password: String = "",
 
         @ManyToOne
         @JoinColumn(name = "formacao_academica_id")
@@ -39,7 +41,4 @@ class UtilizadorParticular(
         @JoinColumn(name = "proposta_id")
         var proposta: Propostas? = null,
 
-        @ManyToOne
-        @JoinColumn(name = "hash_algorithm_id")
-        var hashAlgorithm: HashingAlgorithm? = null
 )

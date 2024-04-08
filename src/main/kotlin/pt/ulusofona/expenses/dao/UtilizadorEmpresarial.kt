@@ -28,9 +28,5 @@ class UtilizadorEmpresarial(
         @JoinColumn(name = "empresa_id")
         var empresa: Empresa? = null,
 
-        @ManyToOne
-        @JoinColumn(name = "hash_algorithm_id")
-        var hashAlgorithm: HashingAlgorithm? = null,
-
         var permissoes: Long = 0
 )

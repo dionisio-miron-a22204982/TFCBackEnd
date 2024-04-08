@@ -7,17 +7,13 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
 import org.springframework.security.provisioning.UserDetailsManager
 import org.springframework.stereotype.Component
-import pt.ulusofona.expenses.dao.Role
-import pt.ulusofona.expenses.dao.User
 import pt.ulusofona.expenses.dao.UtilizadorParticular
-import pt.ulusofona.expenses.repository.UserRepository
 import pt.ulusofona.expenses.repository.UtilizadorParticularRepository
 import java.util.*
 
 @Component
 @Profile("!test")
 class DataLoader(
-    val userRepository: UserRepository,
     val userDetailsManager: UserDetailsManager,
     val utilizadorParticularRepository: UtilizadorParticularRepository
 
@@ -33,32 +29,29 @@ class DataLoader(
             logger.info("\t$key : $value")
         }
 
-        val countUsers = userRepository.count()
+        val countUsers = utilizadorParticularRepository.count()
 
         if (countUsers == 0L) {
             logger.info("No users yet, let's create an admin user")
             // let's create a super user
-            userDetailsManager.createUser(
-                User(firstName = "admin", email = "admin", pass = "123",
-                    rolesAsList = listOf(Role.ROLE_USER, Role.ROLE_ADMIN),
-                    emailConfirmed = true)
+            utilizadorParticularRepository.save(
+                UtilizadorParticular(id = 1, email = "admin@example.com", name = "Admin",
+                    username = "admin", contacto = "96282151", password = "admin123")
             )
         } else {
             logger.info("Users already created, nothing to do here...")
         }
-
-
             logger.info("No users yet, let's create an admin user")
 
             // Let's create a super user
             val adminUser = UtilizadorParticular(
                     id = 1,
                     email = "admin@example.com",
-                    nome = "Admin",
-                    profissao = "Administrator",
-                    contacto = 123456789,
+                    name = "Admin",
+                    username = "admin",
+                    contacto = "96282151",
                     password = "admin123",
-                    dataNascimento = Date()
+                    dataNascimento = null
             )
 
             utilizadorParticularRepository.save(adminUser)
