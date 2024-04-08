@@ -6,5 +6,6 @@ interface UtilizadorParticularRepository : JpaRepository<UtilizadorParticular, L
     fun findUtilizadorParticularById(id: Long):UtilizadorParticular?
     fun findUtilizadorParticularByName(name: String):UtilizadorParticular?
     fun findUtilizadorParticularByUsername(username: String):UtilizadorParticular?
+    abstract fun existsById(id: Long, function: () -> ResponseEntity<String>): Boolean
 }
 

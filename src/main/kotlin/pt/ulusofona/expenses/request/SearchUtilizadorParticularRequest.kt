@@ -6,7 +6,14 @@ data class SearchUtilizadorParticularByNameRequest(val name: String)
 data class SearchUtilizadorParticularByUserNameRequest(val username: String)
 
 // Create
-data class CreateUtilizadorParticularRequest(val id: Long, val username: String, val password: String, val name: String, val email: String, val contacto: String)
+data class CreateUtilizadorParticularRequest(
+    val id: Long,
+    val username: String,
+    val password: String,
+    val name: String,
+    val email: String,
+    val contacto: String
+)
 
 // Edit
 data class EditUtilizadorParticularNameRequest(val id: Long, val name: String)

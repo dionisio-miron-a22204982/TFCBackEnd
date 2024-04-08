@@ -15,10 +15,10 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
 
     // Search by Id
     @GetMapping("/searchId/{id}")
-    fun getUserById(@PathVariable id: SearchUtilizadorParticularByIdRequest): ResponseEntity<out Any> {
+    fun getUserById(@PathVariable id: Long): ResponseEntity<out Any> {
 
         // Getting the user
-        val userId = utilizadorParticularRepository.findUtilizadorParticularById(id.id)
+        val userId = utilizadorParticularRepository.findUtilizadorParticularById(id)
 
         // Conditions
         return if (userId != null) {
@@ -30,8 +30,8 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
 
     // Search By name
     @GetMapping("/searchName/{name}")
-    fun getUserByName(@PathVariable name: SearchUtilizadorParticularByNameRequest): ResponseEntity<out Any> {
-        val user = utilizadorParticularRepository.findUtilizadorParticularByName(name.name)
+    fun getUserByName(@PathVariable name: String): ResponseEntity<out Any> {
+        val user = utilizadorParticularRepository.findUtilizadorParticularByName(name)
 
         return if (user != null) {
             ResponseEntity(user, HttpStatus.OK)
@@ -42,9 +42,9 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
 
     // Search By username
     @GetMapping("/searchUserName/{username}")
-    fun getUserByName(@PathVariable username: SearchUtilizadorParticularByUserNameRequest): ResponseEntity<out Any> {
+    fun getUserByUserName(@PathVariable username: String): ResponseEntity<out Any> {
 
-        val user = utilizadorParticularRepository.findUtilizadorParticularByUsername(username.username)
+        val user = utilizadorParticularRepository.findUtilizadorParticularByUsername(username)
 
         return if (user != null) {
             ResponseEntity(user, HttpStatus.OK)
@@ -73,12 +73,11 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
         return ResponseEntity(savedUtilizador, HttpStatus.CREATED)
     }
 
-    // Delete User by ID
+    // Delete User
     @DeleteMapping("/delete/{id}")
-    fun deleteUserById(@PathVariable id: SearchUtilizadorParticularByIdRequest): ResponseEntity<Any> {
-
-        return if (utilizadorParticularRepository.existsById(id.id)) {
-            utilizadorParticularRepository.deleteById(id.id)
+    fun deleteUserById(@PathVariable id: Long): ResponseEntity<Any> {
+        return if (utilizadorParticularRepository.existsById(id)) {
+            utilizadorParticularRepository.deleteById(id)
             ResponseEntity("Utilizador apagado com sucesso", HttpStatus.OK)
         } else {
             ResponseEntity("Utilizador não encontrado", HttpStatus.NOT_FOUND)
@@ -87,9 +86,9 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
 
     // Delete User by username
     @DeleteMapping("/delete/{username}")
-    fun deleteUserById(@PathVariable username: SearchUtilizadorParticularByUserNameRequest): ResponseEntity<Any> {
+    fun deleteUserById(@PathVariable username: String): ResponseEntity<Any> {
 
-        val user = utilizadorParticularRepository.findUtilizadorParticularByUsername(username.username)
+        val user = utilizadorParticularRepository.findUtilizadorParticularByUsername(username)
 
         return if (user != null) {
             utilizadorParticularRepository.delete(user)
@@ -100,7 +99,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
     }
 
     // Edit User userName
-    @PostMapping("/editUserName/{id}")
+    @PostMapping("/editUserName")
     fun editUserUsernameNameById(@RequestBody updateUser: EditUtilizadorParticularUserNameRequest): ResponseEntity<Any> {
 
         val existingUser = utilizadorParticularRepository.findById(updateUser.id)
@@ -118,7 +117,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
     }
 
     // Edit User Name
-    @PostMapping("/editName/{id}")
+    @PostMapping("/editName")
     fun editUserNameById(@RequestBody updateUser: EditUtilizadorParticularNameRequest): ResponseEntity<Any> {
 
         val existingUser = utilizadorParticularRepository.findById(updateUser.id)
@@ -136,7 +135,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
     }
 
     // Edit User Password
-    @PostMapping("/editPassword/{id}")
+    @PostMapping("/editPassword")
     fun editUserPasswordById(@RequestBody updateUser: EditUtilizadorParticularPasswordRequest): ResponseEntity<Any> {
 
         val existingUser = utilizadorParticularRepository.findById(updateUser.id)
@@ -154,7 +153,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
     }
 
     // Edit User Job
-    @PostMapping("/editJob/{id}")
+    @PostMapping("/editJob")
     fun editUserJobById(@RequestBody updateUser: EditUtilizadorParticularProfissaoRequest): ResponseEntity<Any> {
 
         val existingUser = utilizadorParticularRepository.findById(updateUser.id)
@@ -172,7 +171,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
     }
 
     // Edit User Phone Number
-    @PostMapping("/editContact/{id}")
+    @PostMapping("/editContact")
     fun editUserContactById(@RequestBody updateUser: EditUtilizadorParticularContactoRequest): ResponseEntity<Any> {
 
         val existingUser = utilizadorParticularRepository.findById(updateUser.id)
@@ -190,7 +189,7 @@ class UtilizadorParticularController(val utilizadorParticularRepository: Utiliza
     }
 
     // Edit User email
-    @PostMapping("/editContact/{id}")
+    @PostMapping("/editContact")
     fun editUserContactById(@RequestBody updateUser: EditUtilizadorParticularEmailRequest): ResponseEntity<Any> {
 
         val existingUser = utilizadorParticularRepository.findById(updateUser.id)

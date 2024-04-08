@@ -9,24 +9,24 @@ class UtilizadorEmpresarial(
         @GeneratedValue
         val id: Long = 0,
 
-        var nome: String = "",
+        var name: String = "",
+
+        var username: String = "",
+
+        var password: String = "",
 
         var email: String = "",
 
-        @Column(name = "contacto_telefonico")
-        var contactoTelefonico: Int = 0,
+        var contacto: String = "",
 
-        var utilizador: String = "",
+        var profissao: String = "",
 
-        var password: String = "",
+        var empresa: String = "",
 
         @Temporal(TemporalType.DATE)
         @Column(name = "data_de_nascimento")
         var dataDeNascimento: Date? = null,
 
-        @ManyToOne
-        @JoinColumn(name = "empresa_id")
-        var empresa: Empresa? = null,
 
         var permissoes: Long = 0
 )
